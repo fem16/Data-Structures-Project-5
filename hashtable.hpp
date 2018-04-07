@@ -204,7 +204,7 @@ bool HashTable<K, V>::remove(const K & k)
 
 //Delete all elements in hash table
 template <typename K, typename V>
-void clear()
+void HashTable<K,V>::clear()
 {
 	for(auto & list : theTable)
 	{
@@ -214,8 +214,77 @@ void clear()
 	size = 0;
 	
 }
-bool load(const char *filename); //Load the content of the file into hash table
-void dump(); //Display all entries in the hash table
-size_t size(); //Return the number of elements in the hash table
-bool write_to_file(const char *filename); //Write all elements in the hash table into file with filename
+//Load the content of the file into hash table
+template <typename K, typename V>
+bool HashTable<K, V>::load(const char *filename)
+{
+	K key;
+	V value;
+	
+	std::fstream in;
+	
+	in.open(filename, std::fstream::in);
+	
+	if(in)
+	{
+		while(getline(in, line))
+		{
+			key = in >> line;
+			value = in >> line;
+		
+			theTable.insert(std::make_pair(key, value));
+		}
+	}
+}
+//Display all entries in the hash table
+template <typename K, typename V>
+void HashTable<K, V> :: dump()
+{
+	for(int i = 0; i < size; i++)
+	{
+		for(auto pair: theTable[i])
+		{
+			std::cout << "v[" << i << "]" << pair.first << "  " << pair.second;
+			
+			if (theTable[i].size() > 1)
+				std::cout << ":";
+		}
+		
+		std::cout << endl;
+	}
+}
 
+//Return the number of elements in the hash table
+template <typename K, typename V>
+size_t size()
+{
+	size_t s;
+	
+	for(auto list : theTable)
+		s += list.size();
+	
+	return s;
+}
+
+//Write all elements in the hash table into file with filename
+template <typename K, typename V>
+bool write_to_file(const char *filename)
+{
+	std ::fstream out;
+	
+	out.open(filename);
+	
+	for(int i = 0; i < size; i++)
+	{
+		for(auto pair: theTable[i])
+		{
+			out << "v[" << i << "]" << pair.first << "  " << pair.second;
+			
+			if (theTable[i].size() > 1)
+				out << ":";
+		}
+		
+		out << endl;
+	}
+	
+}

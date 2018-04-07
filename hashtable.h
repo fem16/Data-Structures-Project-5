@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <vector>
 #include <list>
+#include <fstream>
 // max_prime is used by the helpful functions provided
 // to you.
 static const unsigned int max_prime = 1301081;
