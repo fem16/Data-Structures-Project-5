@@ -1,3 +1,4 @@
+
 // returns largest prime number <= n or zero if input is too large
 // This is likely to be more efficient than prime_above(), because
 // it only needs a vector of size n
@@ -8,7 +9,7 @@ unsigned long HashTable<K, V>::prime_below (unsigned long n)
     {
       std::cerr << "** input too large for prime_below()\n";
       return 0;
-    }
+    }  
   if (n == max_prime)
     {
       return max_prime;

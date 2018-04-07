@@ -1,3 +1,8 @@
+#include "hashtable.h"
+#include <iostream>
+
+using namespace cop4530;
+
 void Menu()
 {
   cout << "\n\n";
@@ -12,3 +17,16 @@ void Menu()
   cout << "x - Exit program" << endl;
   cout << "\nEnter choice : ";
 }
+
+
+int main()
+{
+	char choice;
+	
+	Menu();
+	
+	while(choice != 'x')
+	{
+		
+	
+	
