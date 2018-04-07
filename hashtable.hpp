@@ -65,9 +65,9 @@ void HashTable<K, V>::makeEmpty()
 template <typename K, typename V>
 void HashTable<K, V>::rehash()
 {
-	vector <std::pair<K,V>> prevList = theTable;
+	std::vector <std::pair<K,V>> prevList = theTable;
 	
-	theTable.resize(prime_below(2 * prevList.size()));
+	theTable.resize(prime_below(2 * prevList.size ()));
 	
 	size = 0;
 	
@@ -83,9 +83,9 @@ size_t HashTable<K, V>::myhash(const K &k)
 
 //Constructor
 template <typename K, typename V>
-HashTable<K, V>::HashTable(size_t theSize = 101)
+HashTable<K, V>::HashTable(size_t theSize)
 {
-	size = prime_below(theSize);
+	currSize = prime_below(theSize);
 	
 }
 
@@ -102,8 +102,8 @@ bool HashTable<K, V>::contains(const K & k)
 {
 	for(auto list: theTable)
 	{
-		if(std::find_if(begin(list), end(list), [](const std::pair<K, V> p)
-		{return p.first == kv.first;} ) != end(list));
+		if(std::find_if(begin(list), end(list), [&k](const std::pair<K, V> p)
+		{return p.first == k;} ) != end(list));
 			return true;
 	}
 	
@@ -116,7 +116,7 @@ bool HashTable<K, V>::match(const std::pair<K, V> &kv) const
 {
 	for(auto list: theTable)
 	{
-		if(std::find_if(begin(list), end(list), [](const std::pair<K, V> p)
+		if(std::find_if(begin(list), end(list), [&kv](const std::pair<K, V> p)
 		{return p.first == kv.first && p.second == kv.second;} ) != end(list));
 			return true;
 	}
@@ -131,7 +131,7 @@ bool HashTable<K, V>::insert(const std::pair<K, V> & kv)
 	
 	auto & theList = theTable[myhash(kv.first)];
 	
-	size++;
+	currSize++;
 	
 	if(match(kv))
 		return false;
@@ -150,7 +150,7 @@ bool HashTable<K, V>::insert(const std::pair<K, V> & kv)
 	else 
 		theList.push_back(kv);
 	
-	if(++size > theTable.size())
+	if(++currSize > theTable.size())
 		rehash();
 	
 	return true;
@@ -161,7 +161,7 @@ template <typename K, typename V>
 bool HashTable<K, V>::insert(std::pair<K, V> && kv)
 {
 	auto & theList = theTable[myhash(kv.first)];
-	size++;
+	currSize++;
 	
 	if(match(kv))
 		return false;
@@ -180,7 +180,7 @@ bool HashTable<K, V>::insert(std::pair<K, V> && kv)
 	else 
 		theList.push_back(kv);
 	
-	if(++size > theTable.size())
+	if(++currSize > theTable.size())
 		rehash();
 	
 	return true;
@@ -191,14 +191,14 @@ bool HashTable<K, V>::remove(const K & k)
 {
 	auto theList = theTable[myhash(k)];
 	
-	auto itr = std::find_if(begin(theList), end(theList), [](const std::pair<K, V> p)
-		{return p.first == kv.first && p.second == kv.second;} );
+	auto itr = std::find_if(begin(theList), end(theList), [&k](const std::pair<K, V> p)
+		{return p.first == k;} );
 	
 	if(itr == end(theList))
 		return false;
 	
 	theList.erase(itr);
-	--size;
+	--currSize;
 	return true;
 }
 
@@ -220,7 +220,7 @@ bool HashTable<K, V>::load(const char *filename)
 {
 	K key;
 	V value;
-	
+	std::string line;
 	std::fstream in;
 	
 	in.open(filename, std::fstream::in);
@@ -250,13 +250,13 @@ void HashTable<K, V> :: dump()
 				std::cout << ":";
 		}
 		
-		std::cout << endl;
+		std::cout << std::endl;
 	}
 }
 
 //Return the number of elements in the hash table
 template <typename K, typename V>
-size_t size()
+size_t HashTable<K,V>::size()
 {
 	size_t s;
 	
@@ -268,9 +268,9 @@ size_t size()
 
 //Write all elements in the hash table into file with filename
 template <typename K, typename V>
-bool write_to_file(const char *filename)
+bool HashTable<K,V>::write_to_file(const char *filename)
 {
-	std ::fstream out;
+	std::fstream out;
 	
 	out.open(filename);
 	
@@ -284,7 +284,7 @@ bool write_to_file(const char *filename)
 				out << ":";
 		}
 		
-		out << endl;
+		out << std::endl;
 	}
 	
 }

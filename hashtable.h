@@ -16,19 +16,21 @@ static const unsigned int default_capacity = 11;
 namespace cop4530{
 	
 		template <typename K, typename V>
-			class HashTable<K, V>
+			class HashTable
 			{
 				private:
+					
+					int currSize;
+					std::vector<std::list<std::pair<K,V> > >theTable;
+					
+
 					void makeEmpty(); ///delete all elements in the hash table. The public interface clear() will call this function
 					void rehash(); //Rehash function. Called when the number of elements in the hash table is greater than the size of the vector.
 					size_t myhash(const K &k); //return the index of the vector entry where k should be stored.
 					unsigned long prime_below (unsigned long); //Helper to determine prime numbers
-					void setPrimes(vector<unsigned long>&);
+					void setPrimes(std::vector<unsigned long>&);
 					
-					int size;
-					std::vector<std::list<std::pair<K,V>> theTable;
-					
-					
+	
 				public:
 					HashTable(size_t theSize = 101);//Constructor
 					~HashTable(); //Destructor
