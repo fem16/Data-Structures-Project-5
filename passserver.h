@@ -4,6 +4,8 @@
 #include "hashtable.h"
 #include <iostream>
 #include <fstream>
+#include <string>
+#include <crypt.h>
 
 using namespace cop4530;
 using namespace std;
@@ -29,6 +31,6 @@ class PassServer
 		
 	private:
 		string encrypt(const string & str);
-		HashTable<string, string> * ht;
+		cop4530::HashTable<string, string> ht;
 };
 #endif
