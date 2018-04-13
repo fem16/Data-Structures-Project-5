@@ -66,14 +66,18 @@ void HashTable<K, V>::makeEmpty()
 template <typename K, typename V>
 void HashTable<K, V>::rehash()
 {
-	std::vector <std::pair<K,V>> prevList = theTable;
+	std::vector<std::list<std::pair<K,V>>>prevList = theTable;
 	
 	theTable.resize(prime_below(2 * prevList.size ()));
 	
-	size = 0;
+	for(auto & list : theTable)
+		theTable.clear();
 	
-	for(auto &pair : prevList)
-		insert(std::move(pair));
+	currSize = 0;
+	
+	for(auto & list : prevList)
+		for(auto & pair : list)
+			insert(std::move(pair));
 }
 //return the index of the vector entry where k should be stored.
 template <typename K, typename V>
@@ -212,7 +216,7 @@ void HashTable<K,V>::clear()
 		list.clear();
 	}
 	
-	size = 0;
+	currSize = 0;
 	
 }
 //Load the content of the file into hash table
@@ -226,22 +230,19 @@ bool HashTable<K, V>::load(const char *filename)
 	
 	in.open(filename, std::fstream::in);
 	
-	if(in)
+	while(!in)
 	{
-		while(getline(in, line))
-		{
-			key = in >> line;
-			value = in >> line;
-		
-			theTable.insert(std::make_pair(key, value));
-		}
+			in >> key;
+			in >> value;
+			in.ignore();
+			insert(std::make_pair(key, value));
 	}
 }
 //Display all entries in the hash table
 template <typename K, typename V>
 void HashTable<K, V> :: dump()
 {
-	for(int i = 0; i < size; i++)
+	for(int i = 0; i < currSize; i++)
 	{
 		for(auto pair: theTable[i])
 		{
@@ -259,12 +260,7 @@ void HashTable<K, V> :: dump()
 template <typename K, typename V>
 size_t HashTable<K,V>::size()
 {
-	size_t s;
-	
-	for(auto list : theTable)
-		s += list.size();
-	
-	return s;
+	return currSize;
 }
 
 //Write all elements in the hash table into file with filename
@@ -275,7 +271,7 @@ bool HashTable<K,V>::write_to_file(const char *filename)
 	
 	out.open(filename);
 	
-	for(int i = 0; i < size; i++)
+	for(int i = 0; i < currSize; i++)
 	{
 		for(auto pair: theTable[i])
 		{

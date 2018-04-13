@@ -24,8 +24,8 @@ void Menu()
 int main()
 {
 	char choice;
-	int size;
-	std::string passFile;
+	size_t size;
+	char passFile [100];
 	std::string username;
 	std::string password;
 	std::string newpassword;
@@ -60,7 +60,7 @@ int main()
 			std::cin >> username;
 			std::cout << "Enter Password: ";
 			std::cin >> password;
-			ps.addUser(std::pair<username, password>);
+			ps.addUser(make_pair(username, password));
 			
 			std::cout << "\nUser " << username << "added.";
 
@@ -83,10 +83,10 @@ int main()
 			std::cout << "\nEnter new password: ";
 			std::cin >> newpassword;
 			
-			if(!ps.changePassword(std::pair<username, password>, newpassword))
+			if(!ps.changePassword(make_pair(username, password), newpassword))
 				std::cout << "*****Error: Could not change user password";
 			else 
-				ps.changePassword(std::pair<username, password>, newpassword);
+				ps.changePassword(make_pair(username, password), newpassword);
 			
 		}
 		else if(choice == 'f')
