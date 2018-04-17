@@ -36,3 +36,4 @@ class PassServer
 		cop4530::HashTable<string, string> * ht;
 };
 #endif
+

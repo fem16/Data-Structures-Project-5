@@ -6,6 +6,7 @@
 #include <vector>
 #include <list>
 #include <fstream>
+#include <functional>
 
 
 namespace cop4530{
@@ -31,6 +32,7 @@ namespace cop4530{
 					size_t myhash(const K &k); //return the index of the vector entry where k should be stored.
 					unsigned long prime_below (unsigned long); //Helper to determine prime numbers
 					void setPrimes(std::vector<unsigned long>&);
+				
 					
 	
 				public:
@@ -49,6 +51,7 @@ namespace cop4530{
 										
 			};//end of class
 			
+							
 			#include "hashtable.hpp"
 }
 

@@ -35,8 +35,6 @@ int main()
 	
 	PassServer ps(size);
 	
-	std::cout <<  ps.size();
-	
 	Menu();
 
 	while(cin >> choice)
@@ -48,10 +46,8 @@ int main()
 		{
 			std::cout << "Enter password file name to load from: ";
 			std::cin >> passFile;
-			if(!ps.load(passFile))
-				std::cout << "Error: Loading file entry is incorrect\n";
-			else
-				ps.load(passFile);
+
+			ps.load(passFile);
 
 		}
 		else if(choice == 'a')
@@ -60,18 +56,17 @@ int main()
 			std::cin >> username;
 			std::cout << "Enter Password: ";
 			std::cin >> password;
-			ps.addUser(make_pair(username, password));
 			
-			std::cout << "\nUser " << username << "added.";
+			ps.addUser(make_pair(username, password));
 
 		}
 		else if(choice == 'r')
 		{
 			std::cout << "Enter username: ";
 			std::cin >> username;
-			ps.removeUser(username);
 			
-			std::cout << "\nUser " << username << "deleted."; 
+			ps.removeUser(username);
+
 		}
 		else if(choice == 'c')
 		{
@@ -83,10 +78,7 @@ int main()
 			std::cout << "\nEnter new password: ";
 			std::cin >> newpassword;
 			
-			if(!ps.changePassword(make_pair(username, password), newpassword))
-				std::cout << "*****Error: Could not change user password";
-			else 
-				ps.changePassword(make_pair(username, password), newpassword);
+			ps.changePassword(make_pair(username, password), newpassword);
 			
 		}
 		else if(choice == 'f')
